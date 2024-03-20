@@ -1,16 +1,30 @@
+import { useEffect, useState } from 'react';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TokenTransfer } from '@multiversx/sdk-core/out';
 import { Button } from 'components/Button';
 import { ContractAddress } from 'components/ContractAddress';
 import { OutputContainer } from 'components/OutputContainer';
-import { useSendDeposit, useSendWithdraw, useGetNetworkConfig } from 'hooks';
+import { useGetAccountInfo, useGetBalance, useSendDeposit, useSendWithdraw, useGetNetworkConfig } from 'hooks';
 import { WidgetProps } from 'types/widget.types';
+import { FormatAmount, Label } from 'components';
 
 export const EscrowAbi = ({ callbackRoute }: WidgetProps) => {
   const { network } = useGetNetworkConfig();
   const sendDeposit = useSendDeposit();
   const sendWithdraw = useSendWithdraw();
+  const getBalance = useGetBalance();
+  const { websocketEvent } = useGetAccountInfo();
+  const [balance, setBalance] = useState<string>();
+
+  const fetchBalance = async () => {
+    const balance = await getBalance();
+    setBalance(balance);
+  };
+
+  useEffect(() => {
+    fetchBalance();
+  }, [websocketEvent]);
   
   const onDeposit = async () => {
     if (
@@ -39,6 +53,7 @@ export const EscrowAbi = ({ callbackRoute }: WidgetProps) => {
           </Button>
 
           <Button
+            disabled={balance === '0'}
             onClick={onWithdraw}
             className='inline-block rounded-lg px-3 py-2 text-center hover:no-underline my-0 bg-blue-600 text-white hover:bg-blue-700 mr-0 disabled:bg-gray-200 disabled:text-black disabled:cursor-not-allowed'
           >
@@ -50,6 +65,14 @@ export const EscrowAbi = ({ callbackRoute }: WidgetProps) => {
 
       <OutputContainer>
         <ContractAddress />
+        <p>
+          <Label>Escrow Balance:</Label>{' '}
+          {balance ? (
+            <FormatAmount value={balance} egldLabel={network.egldLabel} />
+          ) : (
+            'Loading…'
+          )}
+        </p>
       </OutputContainer>
     </div>
   );
