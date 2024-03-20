@@ -1,5 +1,6 @@
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { TokenTransfer } from '@multiversx/sdk-core/out';
 import { Button } from 'components/Button';
 import { ContractAddress } from 'components/ContractAddress';
 import { OutputContainer } from 'components/OutputContainer';
@@ -15,7 +16,7 @@ export const EscrowAbi = ({ callbackRoute }: WidgetProps) => {
     if (
       window.confirm(`Are you sure you want to deposit 1 ${network.egldLabel}?`)
     ) {
-      await sendDeposit();
+      await sendDeposit(TokenTransfer.egldFromAmount('1').toString());
     }
   };
   
