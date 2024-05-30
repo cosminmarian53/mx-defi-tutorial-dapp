@@ -1,0 +1,59 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.80.0-nightly",
+            "commitHash": "debd22da66cfa97c74040ebf68e420672ac8560e",
+            "commitDate": "2024-05-29",
+            "channel": "Nightly",
+            "short": "rustc 1.80.0-nightly (debd22da6 2024-05-29)"
+        },
+        "contractCrate": {
+            "name": "escrow",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.47.4"
+        }
+    },
+    "name": "Escrow",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "deposit",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "withdraw",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "getUserBalance",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        }
+    ],
+    "esdtAttributes": [],
+    "hasCallback": false,
+    "types": {}
+}
